@@ -14,8 +14,6 @@ export class TasksController {
 
   @Post()
   createTask(@Body() createTaskDTO: CreateTaskDTO): Task {
-    const {title, description} = createTaskDTO
-    console.log('Title: ', title, 'Description: ', description)
     return this.tasksService.createTask(createTaskDTO)
   }
 
