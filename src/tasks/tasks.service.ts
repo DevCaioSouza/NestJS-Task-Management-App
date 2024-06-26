@@ -13,6 +13,10 @@ export class TasksService {
     return this.tasks
   }
 
+  getTaskById(id: string): Task {
+    return this.tasks.find(task => task.id == id)
+  }
+
   createTask(createTaskDTO: CreateTaskDTO): Task {
 
     const { title, description } = createTaskDTO
@@ -32,5 +36,7 @@ export class TasksService {
     // 1- Reduz o load do app
     // 2- Quando o objeto é exibido p/ o usuário na tela, não é necessário fazer uma nova requisição
   }
+
+
 
 }
