@@ -14,7 +14,11 @@ export class TasksService {
   }
 
   getTaskById(id: string): Task {
-    return this.tasks.find(task => task.id == id)
+    return this.tasks.find(task => task.id === id)
+  }
+
+  deleteTaskById(id: string): void {
+    this.tasks = this.tasks.filter(task => task.id !== id)
   }
 
   createTask(createTaskDTO: CreateTaskDTO): Task {
@@ -36,7 +40,4 @@ export class TasksService {
     // 1- Reduz o load do app
     // 2- Quando o objeto é exibido p/ o usuário na tela, não é necessário fazer uma nova requisição
   }
-
-
-
 }
