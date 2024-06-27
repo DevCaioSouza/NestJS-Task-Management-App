@@ -32,7 +32,7 @@ export class TasksController {
   updateTaskById(
     @Param('id') id: string,
     @Body() updateTaskDTO: UpdateTaskDTO
-  ) {
-    this.tasksService.updateTaskById(id, updateTaskDTO)
+  ): Task {
+    return this.tasksService.updateTaskStatus(id, updateTaskDTO)
   }
 }

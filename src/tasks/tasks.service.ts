@@ -22,7 +22,7 @@ export class TasksService {
     this.tasks = this.tasks.filter(task => task.id !== id)
   }
 
-  updateTaskById(id: string, updateTaskDTO: UpdateTaskDTO) {
+  updateTaskStatus(id: string, updateTaskDTO: UpdateTaskDTO): Task {
     const { status } = updateTaskDTO
 
     const targetTask = this.tasks.find(task => task.id === id)
