@@ -34,16 +34,25 @@ export class TasksService {
     return this.tasks
   }
 
-  getFilteredTask(status: TaskStatus): Task[] {
+  getFilteredTask(filterDTO: GetTasksFilterDTO): Task[] {
+    const { status, search } = filterDTO
+
     let tasks = this.getAllTasks()
 
     if (status) {
       tasks = tasks.filter(task => task.status === status)
-      console.log('Status: ', status)
       console.log('Status filterDTO: ', status)
     }
 
+    if (search) {
+      tasks = tasks.filter(task =>
+        task.title.includes(search) ||
+        task.description.includes(search)
+      )
+    }
+
     console.log('Status: ', status)
+    console.log('Search term: ', search)
     return tasks
   }
 

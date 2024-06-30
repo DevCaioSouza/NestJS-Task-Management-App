@@ -11,13 +11,13 @@ export class TasksController {
   constructor(private tasksService: TasksService) { }
 
   @Get()
-  getAllTasks(@Query('status') status: TaskStatus) {
+  getAllTasks(@Query(ValidationPipe) filterDTO: GetTasksFilterDTO) {
 
-    if (status) {
-      console.log('Status: ', status)
-      return this.tasksService.getFilteredTask(status)
+    if (filterDTO) {
+      console.log('Status: ', filterDTO)
+      return this.tasksService.getFilteredTask(filterDTO)
     } else {
-      console.log('Status: ', status)
+      console.log('Retornando filterDTO do else (getAllTasks) ', filterDTO)
       return this.tasksService.getAllTasks()
     }
   }
