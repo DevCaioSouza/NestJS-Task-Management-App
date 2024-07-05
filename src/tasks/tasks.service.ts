@@ -5,12 +5,13 @@ import { GetTasksFilterDTO } from './dto/get-tasks-filter.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Task } from './task.entity'
+import { TaskStatus } from './task-status.enum'
 
 @Injectable()
 export class TasksService {
   constructor(
     @InjectRepository(Task)
-    private readonly taskRepository: Repository<Task>
+    private taskRepository: Repository<Task>
   ) { }
 
   // getAllTasks(): Task[] {
@@ -65,23 +66,20 @@ export class TasksService {
   //   return targetTask
   // }
 
-  // createTask(createTaskDTO: CreateTaskDTO): Task {
+  async createTask(createTaskDTO: CreateTaskDTO) {
 
-  //   const { title, description } = createTaskDTO
+    const { title, description } = createTaskDTO
 
-  //   const task: Task = {
-  //     id: uuidv4(),
-  //     title,
-  //     description,
-  //     status: TaskStatus.OPEN
-  //   }
+    const task = new Task()
+    task.title = title
+    task.description = description
+    task.status = TaskStatus.OPEN
+    await task.save()
+    return task
 
-  //   this.tasks.push(task)
-  //   return task
-
-  //   //quando criamos um recurso numa RestAPI, é de boa prática retorná-lo na função
-  //   //isso é ótimo para o dev frontend, pois:
-  //   // 1- Reduz o load do app
-  //   // 2- Quando o objeto é exibido p/ o usuário na tela, não é necessário fazer uma nova requisição
-  // }
+    //quando criamos um recurso numa RestAPI, é de boa prática retorná-lo na função
+    //isso é ótimo para o dev frontend, pois:
+    // 1- Reduz o load do app
+    // 2- Quando o objeto é exibido p/ o usuário na tela, não é necessário fazer uma nova requisição
+  }
 }
