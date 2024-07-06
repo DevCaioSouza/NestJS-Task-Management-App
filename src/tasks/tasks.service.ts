@@ -50,6 +50,10 @@ export class TasksService {
     return found
   }
 
+  async deleteTaskById(id: number) {
+    await this.taskRepository.delete(id)
+  }
+
   // deleteTaskById(id: string): void {
   //   const found = this.getTaskById(id)
   //   this.tasks = this.tasks.filter(task => task.id !== found.id)
@@ -66,7 +70,7 @@ export class TasksService {
   //   return targetTask
   // }
 
-  async createTask(createTaskDTO: CreateTaskDTO) {
+  async createTask(createTaskDTO: CreateTaskDTO): Promise<Task> {
 
     const { title, description } = createTaskDTO
 

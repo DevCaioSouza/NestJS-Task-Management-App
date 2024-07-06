@@ -27,10 +27,10 @@ export class TasksController {
     return this.tasksService.getTaskById(id)
   }
 
-  // @Delete('/:id')
-  // deleteTaskById(@Param('id') id: string): void {
-  //   this.tasksService.deleteTaskById(id)
-  // }
+  @Delete('/:id')
+  deleteTaskById(@Param('id') id: number): void {
+    this.tasksService.deleteTaskById(id)
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
