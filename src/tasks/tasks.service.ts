@@ -13,7 +13,7 @@ export class TasksService {
     @InjectRepository(Task)
     private taskRepository: Repository<Task>
   ) { }
-
+  
   // getAllTasks(): Task[] {
   //   return this.tasks
   // }
@@ -58,16 +58,12 @@ export class TasksService {
     }
   }
 
-  // updateTaskStatus(id: string, status: TaskStatus): Task {
-
-  //   const targetTask = this.getTaskById(id)
-
-  //   targetTask.status = status
-
-  //   console.log('Target Task : ', targetTask)
-
-  //   return targetTask
-  // }
+  async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+    const targetTask = await this.getTaskById(id)
+    targetTask.status = status
+    await targetTask.save()
+    return targetTask
+  }
 
   async createTask(createTaskDTO: CreateTaskDTO): Promise<Task> {
 
