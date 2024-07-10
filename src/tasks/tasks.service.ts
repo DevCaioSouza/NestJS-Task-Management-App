@@ -3,7 +3,7 @@ import { CreateTaskDTO } from './dto/create-task.dto'
 import { UpdateTaskDTO } from './dto/update-task.dto'
 import { GetTasksFilterDTO } from './dto/get-tasks-filter.dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { createQueryBuilder, Repository } from 'typeorm'
 import { Task } from './task.entity'
 import { TaskStatus } from './task-status.enum'
 
@@ -13,32 +13,25 @@ export class TasksService {
     @InjectRepository(Task)
     private taskRepository: Repository<Task>
   ) { }
-  
-  // getAllTasks(): Task[] {
-  //   return this.tasks
-  // }
 
-  // getFilteredTask(filterDTO: GetTasksFilterDTO): Task[] {
-  //   const { status, search } = filterDTO
+  async getTasks(filterDTO: GetTasksFilterDTO): Promise<Task[]> {
+    const { status, search } = filterDTO
+    const query = this.taskRepository.createQueryBuilder('task')
 
-  //   let tasks = this.getAllTasks()
+    if (status) {
+      query.andWhere('task.status = :status', { status })
+    }
 
-  //   if (status) {
-  //     tasks = tasks.filter(task => task.status === status)
-  //     console.log('Status filterDTO: ', status)
-  //   }
+    if (search) {
+      // LIKE allows partial terms (substring) to be searched, being more forgiving than '='
+      // the '%%' is also used with that purpose
+      query.andWhere('(task.title LIKE :search OR task.description LIKE :search)', { search: `%${search}%` })
+    }
 
-  //   if (search) {
-  //     tasks = tasks.filter(task =>
-  //       task.title.includes(search) ||
-  //       task.description.includes(search)
-  //     )
-  //   }
+    const tasks = await query.getMany()
+    return tasks
+  }
 
-  //   console.log('Status: ', status)
-  //   console.log('Search term: ', search)
-  //   return tasks
-  // }
 
   async getTaskById(id: number): Promise<Task> {
     const found = await this.taskRepository.findOne({ where: { id: id } })
