@@ -41,7 +41,7 @@ export class TasksController {
 
   @Patch('/:id/status')
   updateTaskById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body('status', TaskStatusValidationPipe) status: TaskStatus
   ): Promise<Task> {
     return this.tasksService.updateTaskStatus(id, status)
